@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="Brasil Vivo - Aventura 2D com Lula, senhor explorador com maleta e bengala.">
+  <title>Brasil Vivo - Aventura 2D</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Cabeçalho Acessível -->
+    <header class="app-header">
+      <div class="header-content">
+        <h1 class="game-title">
+          <span class="title-icon" aria-hidden="true">🇧🇷</span>
+          <span>Brasil Vivo</span>
+        </h1>
+        <p class="subtitle" id="mission-banner">Resgate dez constituições para devolver a democracia ao Brasil</p>
+      </div>
+      
+      <!-- Indicador de Status, Contador e Localização -->
+      <div class="status-panel" aria-label="Painel de status do jogo">
+        <div class="status-item" id="counter-indicator">
+          <span class="status-label" id="counter-label">📜 Constituições:</span>
+          <span class="status-value" id="constitution-counter" aria-live="polite">0/10</span>
+        </div>
+        <div class="status-item" id="reserve-indicator" hidden>
+          <span class="status-label">🚩 Reserva:</span>
+          <span class="status-value" id="reserve-counter" aria-live="polite">10</span>
+        </div>
+        <div class="status-item" id="zone-indicator">
+          <span class="status-label">Local:</span>
+          <span class="status-value" id="zone-name" aria-live="polite">🏛️ Senado</span>
+        </div>
+        <div class="status-item" id="state-indicator">
+          <span class="status-label">Estado:</span>
+          <span class="status-value" id="state-text" aria-live="polite">Pronto para Iniciar</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Região Viva para Leitores de Tela -->
+    <div id="screen-reader-alerts" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+    <!-- Área Principal do Jogo -->
+    <main class="game-main">
+      <div class="canvas-wrapper" id="canvas-container">
+        <canvas id="gameCanvas" width="1920" height="1080" aria-label="Cenário do jogo Brasil Vivo com Senado, Túnel e Avenida Paulista cercados por mata fechada" role="img" tabindex="0"></canvas>
+      </div>
+
+      <!-- Barra de Controle Principal (Teclado & Botões) -->
+      <nav class="action-bar" aria-label="Controles principais do jogo">
+        <button id="btn-start" class="btn btn-primary" type="button" aria-label="Iniciar expedição">
+          <span class="btn-icon" aria-hidden="true">▶</span>
+          <span class="btn-label">Iniciar Expedição</span>
+        </button>
+
+        <button id="btn-plant" class="btn btn-primary" type="button" aria-label="Colocar bandeira no palanque em que Lula está tocando (Tecla E)" hidden disabled>
+          <span class="btn-icon" aria-hidden="true">🇧🇷</span>
+          <span class="btn-label">Colocar Bandeira (E)</span>
+        </button>
+
+        <button id="btn-pause" class="btn btn-secondary" type="button" aria-label="Pausar ou retomar o jogo" disabled>
+          <span class="btn-icon" id="pause-icon" aria-hidden="true">⏸</span>
+          <span class="btn-label" id="pause-label">Pausar</span>
+        </button>
+
+        <button id="btn-reset" class="btn btn-tertiary" type="button" aria-label="Reiniciar partida e restaurar as dez constituições">
+          <span class="btn-icon" aria-hidden="true">🔄</span>
+          <span class="btn-label">Reiniciar</span>
+        </button>
+      </nav>
+
+      <!-- Controles Virtuais de Toque (Mobile / D-Pad) -->
+      <section class="touch-controls-section" aria-label="Controles de toque virtuais">
+        <div class="dpad-container" role="group" aria-label="Controle direcional de movimento">
+          <button id="touch-up" class="dpad-btn dpad-up" type="button" aria-label="Mover para cima" data-dir="up">
+            <span aria-hidden="true">▲</span>
+          </button>
+          <div class="dpad-middle-row">
+            <button id="touch-left" class="dpad-btn dpad-left" type="button" aria-label="Mover para a esquerda" data-dir="left">
+              <span aria-hidden="true">◀</span>
+            </button>
+            <div class="dpad-center" aria-hidden="true">
+              <span class="dpad-lia-icon">💼</span>
+            </div>
+            <button id="touch-right" class="dpad-btn dpad-right" type="button" aria-label="Mover para a direita" data-dir="right">
+              <span aria-hidden="true">▶</span>
+            </button>
+          </div>
+          <button id="touch-down" class="dpad-btn dpad-down" type="button" aria-label="Mover para baixo" data-dir="down">
+            <span aria-hidden="true">▼</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Instruções de Acessibilidade e Teclas -->
+      <footer class="instructions-panel">
+        <div class="instruction-card">
+          <h2 class="card-title">🎮 Como Jogar</h2>
+          <ul class="instruction-list">
+            <li><strong>Mover:</strong> Teclas <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> ou <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> (ao soltar, Lula para imediatamente).</li>
+            <li><strong>Guarda de Névoa (FlavioB):</strong> Patrulha uma linha fixa na Avenida Paulista com uma seta indicando sua direção. Desvie dele para não encerrar o resgate!</li>
+            <li><strong>Recuperar Democracia:</strong> Ao coletar as 10 constituições, a etapa de colocação de bandeiras começa automaticamente! Encoste nos palanques do Senado ou da Paulista acionando por <strong>clique, toque ou tecla <kbd>E</kbd></strong> para hastear as 10 bandeiras e devolver a vida à ilha!</li>
+            <li><strong>Pausa:</strong> Tecla <kbd>P</kbd> ou botão "Pausar/Retomar" (para Lula e o guarda).</li>
+            <li><strong>Reiniciar:</strong> Tecla <kbd>R</kbd> ou botão "Reiniciar".</li>
+            <li><strong>Troca de aba:</strong> O jogo pausa automaticamente ao sair da janela e aguarda você retomar ao voltar.</li>
+            <li><strong>Navegação por Teclado:</strong> Use <kbd>Tab</kbd> para navegar entre botões e <kbd>Enter</kbd> para acioná-los.</li>
+            <li><strong>Espaço:</strong> Reservado para o escudo em atualizações futuras.</li>
+          </ul>
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
